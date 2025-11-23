@@ -1,0 +1,225 @@
+---
+title: 'Privacy'
+description: 'What Fortt sees vs what Fortt collects - radical transparency about data handling'
+---
+
+# What Fortt Sees vs What Fortt Collects
+
+Fortt was designed with **radical transparency**:  
+
+you should always know *exactly* what we see and what we store about your requests.
+
+This page shows:
+
+- The raw data Fortt can see when your backend forwards a `/verify` request
+
+- The minimal subset of data we actually store
+
+- Why each piece is necessary
+
+- Privacy guarantees
+
+---
+
+# 1. What Fortt *Sees* From a Request
+
+When your server forwards a request to Fortt via:
+
+```
+POST /api/fortt → https://api.fortt.sh/verify
+```
+
+Fortt can *see* the same metadata any backend normally sees about a request.
+
+Here is an example of the **full context** we can observe:
+
+```json
+{
+  "method": "POST",
+  "path": "/verify",
+  "ip": "2804:1b3:6149:8807:6814:6f37:1df9:935b",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...",
+  "acceptLanguage": "en-US,en;q=0.9",
+  "headers": {
+    "host": "yourapp.com",
+    "referer": "https://yourapp.com/login"
+  },
+  "body": {
+    "url": "https://yourapp.com/login",
+    "referrer": "https://yourapp.com",
+    "clientInfo": {
+      "screen": { "w": 1440, "h": 900 },
+      "timezone": "America/Sao_Paulo",
+      "platform": "MacIntel"
+    }
+  }
+}
+```
+
+**But this does NOT mean we store all of this.**
+
+Fortt intentionally drops or ignores anything that could be sensitive or unnecessary.
+
+---
+
+# 2. What Fortt *Actually Stores*
+
+We only store the **minimal fields required** for bot detection, fraud scoring, and network intelligence.
+
+Here is exactly what we persist:
+
+```json
+{
+  "timestamp": "2025-11-23T16:34:59.000Z",
+  "ip": "2804:1b3:6149:8807:6814:6f37:1df9:935b",
+  "asn": 16735,
+  "country": "BR",
+  "path": "/verify",
+  "method": "POST",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...",
+  "visitorId": "8c2b81ac4a6c4f1fb3e95a6019b0ad5e",
+  "deviceFingerprint": {
+    "platform": "MacIntel",
+    "deviceMemory": 8,
+    "timezone": "America/Sao_Paulo"
+  },
+  "signalBreakdown": {
+    "ip.reputation": 0.904,
+    "ua.bot": 0.485,
+    "velocity.check": 0.623,
+    "device.fingerprint": 0.700,
+    "replay.detection": -0.500
+  },
+  "finalScore": 0.577,
+  "riskBand": "LOW"
+}
+```
+
+---
+
+# 3. Why We Store These Fields
+
+| Field                   | Why we store it                                                   | Sensitive?                                           |
+| ----------------------- | ----------------------------------------------------------------- | ---------------------------------------------------- |
+| **IP**                  | Needed to detect VPNs, datacenters, bad ASNs and velocity attacks | IPs are not personal data by GDPR when used this way |
+| **ASN**                 | Strong indicator of bot activity (datacenters, proxies, scrapers) | ❌ Not sensitive                                      |
+| **Country**             | Helps detect impossible travels / geo anomalies                   | ❌ Not sensitive                                      |
+| **User-Agent**          | Detect headless browsers / automation tools                       | ❌ Not sensitive                                      |
+| **visitorId (hashed)**  | Identify continuity from same device                              | ✔ anonymized                                         |
+| **Fingerprint signals** | Detect spoofed environments or rotated devices                    | ✔ not reversible                                     |
+| **Signal breakdown**    | Transparency + debugging + accuracy tuning                        | ❌ not personal                                       |
+| **Score + bands**       | Determine bot likelihood                                          | ❌ not personal                                       |
+| **Timestamp**           | Traffic analysis, velocity, replay scanning                       | ❌ not personal                                       |
+
+We **never** store request bodies, form fields, emails, names, or anything tied to your user's identity.
+
+---
+
+# 4. What Fortt *Never* Stores
+
+To be absolutely clear:
+
+We **do not** store:
+
+* Personal data (name, email, phone, CPF, address)
+
+* Account information
+
+* Payment information
+
+* Business logic parameters
+
+* Form data from your website
+
+* Cookies or session tokens
+
+* Authentication secrets
+
+* Internal identifiers (userId, orderId, etc.)
+
+Fortt has **no visibility** into your application's internal world.
+
+---
+
+# 5. Side-by-Side Comparison
+
+## What We See
+
+(Raw request context your backend forwards)
+
+```json
+{
+  "url": "https://yourapp.com/login",
+  "referrer": "https://yourapp.com",
+  "userAgent": "...",
+  "screen": { "w": 1440, "h": 900 },
+  "timezone": "America/Sao_Paulo",
+  "platform": "MacIntel",
+  "ip": "2804:1b3:6149:...:935b",
+  "headers": { "...": "..." }
+}
+```
+
+## What We Save
+
+(Minimal dataset required for fraud detection)
+
+```json
+{
+  "ip": "2804:1b3:6149:...:935b",
+  "asn": 16735,
+  "country": "BR",
+  "userAgent": "...",
+  "visitorId": "8c2b81ac4a6c4f1fb3e95a6019b0ad5e",
+  "deviceFingerprint": { "platform": "MacIntel" },
+  "signalBreakdown": { "...": "..." },
+  "finalScore": 0.577
+}
+```
+
+Everything else is **discarded immediately**.
+
+---
+
+# Security Guarantees
+
+### ✔ Data is encrypted at rest
+
+PostgreSQL + Redis with full encryption.
+
+### ✔ Data is encrypted in transit
+
+TLS 1.2+ enforced.
+
+### ✔ No cross-customer correlation
+
+Each project is isolated — your traffic stays yours.
+
+### ✔ Logs have short retention
+
+We automatically purge old entries unless otherwise configured.
+
+### ✔ Fully anonymized device identifiers
+
+`visitorId` is non-PII and cannot be reversed.
+
+---
+
+# In Summary
+
+You can safely use Fortt knowing:
+
+* We see only what is needed to score risk
+
+* We store an even smaller subset
+
+* None of your user's personal information is collected
+
+* Your application's internal data remains completely private
+
+* Everything is encrypted, isolated, and purged regularly
+
+Fortt is built to protect you — not track your users.
+
+If you have any privacy concerns or compliance questions, feel free to contact us.
+
