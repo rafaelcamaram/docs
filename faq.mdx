@@ -1,0 +1,101 @@
+---
+title: 'Frequently Asked Questions'
+description: 'Common questions about Fortt integration and usage'
+---
+
+## General Questions
+
+<AccordionGroup>
+  <Accordion title="What is Fortt and how does it work?">
+    Fortt is a security platform that protects your web applications from bots, abuse, and fraud. It uses advanced device fingerprinting, behavioral analysis, and risk scoring to evaluate user interactions in real-time. The SDK collects device and session information, sends it to Fortt's API, and receives risk-based decisions (ALLOW, MONITOR, CHALLENGE, or BLOCK).
+  </Accordion>
+
+  <Accordion title="Will Fortt impact my users' experience?">
+    No. Fortt operates completely in the background with zero visual impact. There are no popups, no challenges, and no interruptions to your users' browsing experience. All data collection happens silently without any degradation of user experience.
+  </Accordion>
+
+  <Accordion title="What happens during the trial period?">
+    During the trial period, Fortt operates in data collection mode. The SDK collects device fingerprinting data and sends verification requests, but it will not show challenges to users or block any requests. All requests are allowed while Fortt builds risk profiles and improves its detection capabilities.
+  </Accordion>
+
+  <Accordion title="What happens after the trial period?">
+    After the trial period, you'll receive a comprehensive traffic analysis report showing insights about your traffic patterns, risk levels, and potential threats. Based on this analysis, you can then choose whether to enable challenge/blocking features based on your specific needs and risk tolerance.
+  </Accordion>
+</AccordionGroup>
+
+## Integration Questions
+
+<AccordionGroup>
+  <Accordion title="How do I get a projectId?">
+    To start your trial and receive your `projectId`, contact [rafael@fortt.sh](mailto:rafael@fortt.sh). You'll receive your unique project identifier after starting your trial, which you'll use to configure `ForttProvider` in your application.
+  </Accordion>
+
+  <Accordion title="How do I integrate Fortt into my React application?">
+    Integration is simple and takes just two steps:
+    1. Install the React SDK: `npm install fortt/react`
+    2. Wrap your app with `ForttProvider` and provide your project ID
+    
+    That's it! Page view tracking happens automatically. See our [Quickstart Guide](/quickstart) for detailed examples.
+  </Accordion>
+
+  <Accordion title="Do I need to modify my existing code?">
+    No major code changes are required. You simply wrap your application (or the portion that needs protection) with `ForttProvider`. The SDK handles all the complexity automatically, including device fingerprinting, session management, and API communication.
+  </Accordion>
+
+  <Accordion title="Can I use Fortt with Next.js?">
+    Yes! Fortt works seamlessly with Next.js App Router. Simply wrap your root layout with `ForttProvider`. See our [Quickstart Guide](/quickstart) for a complete Next.js example.
+  </Accordion>
+
+  <Accordion title="What data does Fortt collect?">
+    Fortt collects device fingerprinting data including browser characteristics, screen resolution, timezone, and other non-personally identifiable information. It also tracks visitor and session identifiers to build risk profiles over time. All data collection happens in the background without user interaction.
+  </Accordion>
+</AccordionGroup>
+
+## Technical Questions
+
+<AccordionGroup>
+  <Accordion title="How does device fingerprinting work?">
+    Fortt's SDK automatically collects various browser and device characteristics (screen resolution, timezone, plugins, etc.) to create a unique device fingerprint. This fingerprint helps identify suspicious devices and patterns without requiring any user interaction or cookies.
+  </Accordion>
+
+  <Accordion title="What are the different decision types?">
+    Fortt returns four types of decisions:
+    - **ALLOW**: Low risk, proceed with the action
+    - **MONITOR**: Moderate risk, allow but track for analysis
+    - **CHALLENGE**: Higher risk, require user to complete a challenge (currently disabled during trial)
+    - **BLOCK**: High risk, deny the request (currently disabled during trial)
+  </Accordion>
+
+  <Accordion title="How is performance affected?">
+    Fortt is designed to be lightweight and non-blocking. Verification requests are sent asynchronously in the background and do not delay page loads or user interactions. The SDK has minimal impact on your application's performance.
+  </Accordion>
+
+  <Accordion title="Do I need to handle errors or edge cases?">
+    The SDK handles all error cases automatically. Network issues, API errors, and edge cases are managed internally, so your application continues to function normally even if verification requests fail.
+  </Accordion>
+</AccordionGroup>
+
+## Privacy and Security
+
+<AccordionGroup>
+  <Accordion title="Is user data stored or shared?">
+    Fortt collects device fingerprinting data and session information to build risk profiles. This data is used solely for security and fraud detection purposes. Refer to Fortt's privacy policy for detailed information about data handling and storage.
+  </Accordion>
+
+  <Accordion title="Does Fortt use cookies?">
+    Fortt uses localStorage and sessionStorage to maintain visitor and session identifiers. These are used to track risk patterns over time and improve detection accuracy. No third-party cookies are required.
+  </Accordion>
+
+  <Accordion title="Is Fortt GDPR compliant?">
+    Fortt is designed with privacy in mind and collects minimal data necessary for security purposes. For specific compliance questions, please contact Fortt support or refer to our privacy policy.
+  </Accordion>
+</AccordionGroup>
+
+## Still Have Questions?
+
+If you couldn't find the answer you're looking for, feel free to reach out:
+
+**Email**: [rafael@fortt.sh](mailto:rafael@fortt.sh)
+
+We're here to help you get the most out of Fortt!
+

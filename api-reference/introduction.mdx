@@ -1,33 +1,63 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Reference'
+description: 'React SDK components and hooks reference'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
+The Fortt React SDK provides components and hooks to integrate Fortt into your React or Next.js application. All backend API communication is handled automatically—you only need to work with the React components and hooks.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## Components
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+### `<ForttProvider />`
 
-## Authentication
+The main provider component that wraps your application and enables Fortt functionality. It automatically handles page view tracking and provides Fortt context to all child components.
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+#### Props
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+<ParamField body="projectId" type="string" required>
+  Your unique Fortt project identifier. This is required to connect your
+  application to your Fortt project. **Getting your projectId**: To start your
+  trial and receive your `projectId`, contact
+  [rafael@fortt.sh](mailto:rafael@fortt.sh). You'll receive your project
+  identifier after starting your trial.
+</ParamField>
+
+<ParamField body="children" type="React.ReactNode" required>
+  The child components that will have access to the Fortt context. Typically,
+  this is your entire application or a portion that needs protection.
+</ParamField>
+
+#### Example
+
+```tsx
+import { ForttProvider } from 'fortt/react';
+
+function App() {
+  return (
+    <ForttProvider projectId="your-project-id">
+      {/* Your app components */}
+    </ForttProvider>
+  );
+}
 ```
+
+#### Behavior
+
+When `ForttProvider` is mounted, it automatically:
+
+- Initializes device fingerprinting
+- Creates or retrieves visitor and session identifiers
+- Sends verification requests on page load
+- Manages all API communication in the background
+
+All of this happens silently with zero visual impact on your users.
+
+## Hooks
+
+Additional hooks for protecting specific actions will be available soon. Currently, `ForttProvider` handles all verification automatically through page view tracking.
+
+## Next Steps
+
+- Check out the [quickstart guide](/quickstart) to integrate Fortt into your app
+- Visit the [FAQ](/faq) for common questions about integration and usage

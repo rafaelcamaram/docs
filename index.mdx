@@ -1,69 +1,65 @@
 ---
 title: 'Introduction'
-description: 'Welcome to the new home for your documentation'
+description: 'Protect your application from bots, abuse, and fraud with Fortt'
 ---
 
-## Setting up
+<Warning>
+  **Current Status**: Fortt is currently in data collection mode. The SDK will collect device fingerprinting data and send verification requests, but it will not show challenges to users or block any requests. All requests will be allowed while Fortt builds risk profiles and improves its detection capabilities.
+</Warning>
 
-Get your documentation site up and running in minutes!
+<Info>
+  **Zero User Impact**: Fortt operates completely in the background with zero visual impact on your users. There is no degradation of user experience—no popups, no challenges, and no interruptions. After the trial period, you'll receive a comprehensive traffic analysis report, and you can then choose whether to enable challenge/blocking features based on your needs.
+</Info>
 
-<Card title="Start here" icon="rocket" href="/quickstart" horizontal>
-  Follow our three step quickstart guide.
+## What is Fortt?
+
+Fortt is a comprehensive security platform that protects your web applications from bots, abuse, and fraud. It combines advanced device fingerprinting, behavioral analysis, and risk scoring to help you make intelligent decisions about user interactions.
+
+### Key Features
+
+- **Bot & Abuse Protection**: Detect and block automated attacks, scraping, and malicious traffic before they impact your application
+- **Account Security**: Protect login flows, signups, and sensitive operations from fraud and account takeover attempts
+- **Device Fingerprinting**: Advanced client-side fingerprinting that helps identify suspicious devices and patterns
+- **Risk-Based Decisions**: Get real-time risk scores and actionable decisions (ALLOW, CHALLENGE, BLOCK, MONITOR) for every request
+- **Seamless Integration**: Simple React SDK that integrates in minutes with your existing application
+- **Zero User Impact**: Operates completely in the background with no visual changes, popups, or interruptions to your users' experience
+
+## How Fortt Works
+
+Fortt operates through a client-server architecture that evaluates risk in real-time:
+
+1. **Client SDK**: Your React application uses the Fortt SDK to collect device and session information, then sends verification requests to Fortt's API
+2. **Risk Evaluation**: Fortt's backend engine analyzes multiple signals including device fingerprint, network characteristics, behavioral patterns, and velocity checks
+3. **Decision Response**: Based on the risk analysis, Fortt returns a decision:
+   - **ALLOW**: Low risk, proceed with the action
+   - **MONITOR**: Moderate risk, allow but track for analysis
+   - **CHALLENGE**: Higher risk, require user to complete a challenge (e.g., CAPTCHA)
+   - **BLOCK**: High risk, deny the request
+4. **Page View Tracking**: Automatic page view events help build a risk profile over time, improving future decision accuracy
+
+The SDK handles all the complexity—you simply wrap your app with `ForttProvider` to start tracking page views automatically. All data collection happens silently in the background with zero visual impact on your users.
+
+## Get Started
+
+Ready to protect your application? Follow our quickstart guide to integrate Fortt in minutes.
+
+<Card title="Quickstart Guide" icon="rocket" href="/quickstart" horizontal>
+  Get up and running with Fortt in 2 simple steps
 </Card>
 
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
+## Learn More
 
 <Columns cols={2}>
-  <Card title="Edit locally" icon="pen-to-square" href="/development">
-    Edit your docs locally and preview them in real time.
+  <Card title="API Reference" icon="terminal" href="/api-reference/introduction">
+    React SDK components and hooks reference
   </Card>
-  <Card title="Customize your site" icon="palette" href="/essentials/settings">
-    Customize the design and colors of your site to match your brand.
-  </Card>
-  <Card title="Set up navigation" icon="map" href="/essentials/navigation">
-    Organize your docs to help users find what they need and succeed with your
-    product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="FAQ" icon="circle-question" href="/faq">
+    Find answers to common questions about Fortt
   </Card>
 </Columns>
 
-## Create beautiful pages
+## Need Help?
 
-Everything you need to create world-class documentation.
+Have questions or need assistance? Feel free to reach out:
 
-<Columns cols={2}>
-  <Card title="Write with MDX" icon="pen-fancy" href="/essentials/markdown">
-    Use MDX to style your docs pages.
-  </Card>
-  <Card title="Code samples" icon="code" href="/essentials/code">
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card title="Images" icon="image" href="/essentials/images">
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+**Email**: [rafael@fortt.sh](mailto:rafael@fortt.sh)

@@ -1,80 +1,126 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: 'Quickstart'
+description: 'Get Fortt integrated into your React or Next.js app in minutes'
 ---
 
-## Get started in three steps
+<Warning>
+  **Current Status**: Fortt is currently in data collection mode. The SDK will
+  collect device fingerprinting data and send verification requests, but it will
+  not show challenges to users or block any requests. All requests will be
+  allowed while Fortt builds risk profiles and improves its detection
+  capabilities.
+</Warning>
 
-Get your documentation site running locally and make your first customization.
+<Info>
+  **Zero User Impact**: Fortt operates completely in the background with zero
+  visual impact on your users. There is no degradation of user experience—no
+  popups, no challenges, and no interruptions. After the trial period, you'll
+  receive a comprehensive traffic analysis report, and you can then choose
+  whether to enable challenge/blocking features based on your needs.
+</Info>
 
-### Step 1: Set up your local environment
+## Get started in two steps
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+Integrate Fortt into your application to start protecting against bots, abuse, and fraud.
 
-### Step 2: Deploy your changes
+### Step 1: Install the React SDK
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+Install the Fortt React SDK using your preferred package manager:
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+```bash
+npm install fortt/react
+# or
+yarn add fortt/react
+# or
+pnpm add fortt/react
+```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+### Step 2: Configure ForttProvider
 
-### Step 3: Go live
+Wrap your application (or the portion that needs protection) with `ForttProvider`. This provides the Fortt configuration to all child components.
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+**React SPA Example:**
 
-## Next steps
+```tsx
+import { ForttProvider } from 'fortt/react';
 
-Now that you have your docs running, explore these key features:
+function App() {
+  return (
+    <ForttProvider projectId="your-project-id">
+      {/* Your app components */}
+    </ForttProvider>
+  );
+}
+```
+
+**Next.js App Router Example:**
+
+```tsx
+// app/layout.tsx
+'use client';
+
+import { ForttProvider } from 'fortt/react';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <ForttProvider projectId="your-project-id">{children}</ForttProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+**ForttProvider Props:**
+
+- `projectId` (required): Your unique Fortt project identifier
+
+<Info>
+  **Getting your projectId**: To start your trial and receive your `projectId`,
+  contact [rafael@fortt.sh](mailto:rafael@fortt.sh). You'll receive your project
+  identifier after starting your trial.
+</Info>
+
+That's it! The `ForttProvider` automatically handles page view tracking—no additional code needed. The SDK automatically sends verification requests on page load, helping Fortt build a risk profile for your users.
+
+**Zero User Impact**: All data collection happens silently in the background. Your users will experience no visual changes, no popups, no challenges, and no interruptions to their browsing experience.
+
+## How It Works
+
+When a page view occurs:
+
+1. The SDK collects device fingerprinting data (browser characteristics, screen resolution, timezone, etc.)
+2. It generates a unique nonce and retrieves or creates visitor and session IDs
+3. A verification request is sent to Fortt's API with this information
+4. Fortt evaluates the risk and returns a decision (ALLOW, MONITOR, CHALLENGE, or BLOCK)
+5. The decision is logged and used to inform future risk assessments
+
+This happens automatically in the background—your users won't notice any difference, but you'll start building valuable risk signals immediately. There is zero visual impact and no degradation of user experience.
+
+## Next Steps
+
+Now that you have basic page view tracking set up, you can:
+
+- **Protect sensitive actions**: Use Fortt's React hooks to guard login forms, signups, payments, and other critical operations (documentation coming soon)
+- **Review the API reference**: Learn about available React SDK components and hooks
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    React SDK components and hooks reference
+  </Card>
+  <Card title="FAQ" icon="circle-question" href="/faq">
+    Find answers to common questions
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+<Tip>
+  **Need help?** Check out the [API Reference](/api-reference/introduction) for
+  detailed information about verification requests and responses. If you have
+  questions, feel free to reach out at
+  [rafael@fortt.sh](mailto:rafael@fortt.sh).
+</Tip>
