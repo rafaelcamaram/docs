@@ -79,12 +79,33 @@ export default function RootLayout({
 **ForttProvider Props:**
 
 - `projectId` (required): Your unique Fortt project identifier
+- `ignorePaths` (optional): Array of path patterns to skip automatic verification on (e.g., `['/dashboard', '/admin/*']`)
 
 <Info>
   **Getting your projectId**: To start your trial and receive your `projectId`,
   contact [rafael@fortt.sh](mailto:rafael@fortt.sh). You'll receive your project
   identifier after starting your trial.
 </Info>
+
+### Excluding Pages from Automatic Verification
+
+If you have pages where you don't want automatic verification to occur (like admin dashboards or internal pages), you can use the `ignorePaths` prop:
+
+```tsx
+<ForttProvider
+  projectId="your-project-id"
+  ignorePaths={['/dashboard', '/admin/*', '/internal']}
+>
+  {children}
+</ForttProvider>
+```
+
+The `ignorePaths` prop supports:
+
+- **Exact matches**: `'/dashboard'` matches exactly `/dashboard`
+- **Wildcard patterns**: `'/admin/*'` matches `/admin` and all subpaths like `/admin/users`, `/admin/settings`, etc.
+
+When a page matches any pattern in `ignorePaths`, Fortt will skip automatic verification on that page load.
 
 That's it! The `ForttProvider` automatically handles page view tracking—no additional code needed. The SDK automatically sends verification requests on page load, helping Fortt build a risk profile for your users.
 

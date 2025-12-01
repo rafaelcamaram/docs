@@ -49,6 +49,21 @@ description: 'Common questions about Fortt integration and usage'
   <Accordion title="What data does Fortt collect?">
     Fortt collects device fingerprinting data including browser characteristics, screen resolution, timezone, and other non-personally identifiable information. It also tracks visitor and session identifiers to build risk profiles over time. All data collection happens in the background without user interaction.
   </Accordion>
+
+  <Accordion title="Can I exclude certain pages from automatic verification?">
+    Yes! You can use the `ignorePaths` prop on `ForttProvider` to exclude specific pages or routes from automatic verification. This is useful for internal pages, admin dashboards, or other pages where you don't want verification to occur.
+    
+    ```tsx
+    <ForttProvider
+      projectId="your-project-id"
+      ignorePaths={['/dashboard', '/admin/*', '/internal']}
+    >
+      {children}
+    </ForttProvider>
+    ```
+    
+    The `ignorePaths` prop supports exact matches (e.g., `'/dashboard'`) and wildcard patterns (e.g., `'/admin/*'` to match all admin subpaths). See the [API Reference](/api-reference/introduction) for more details.
+  </Accordion>
 </AccordionGroup>
 
 ## Technical Questions

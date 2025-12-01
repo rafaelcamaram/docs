@@ -28,6 +28,17 @@ The main provider component that wraps your application and enables Fortt functi
   this is your entire application or a portion that needs protection.
 </ParamField>
 
+<ParamField body="ignorePaths" type="string[]" required={false}>
+  Array of path patterns to skip automatic verification on. Supports exact
+  matches and wildcard patterns. When a page matches any pattern in this array,
+  Fortt will not automatically send verification requests on page load.
+  **Pattern Examples:** - `'/dashboard'` - Exact match for `/dashboard` -
+  `'/admin/*'` - Matches `/admin` and all subpaths like `/admin/users`,
+  `/admin/settings`, etc. This is useful for excluding internal pages, admin
+  panels, or dashboard pages where you don't want automatic verification to
+  occur.
+</ParamField>
+
 #### Example
 
 ```tsx
@@ -36,6 +47,23 @@ import { ForttProvider } from 'fortt/react';
 function App() {
   return (
     <ForttProvider projectId="your-project-id">
+      {/* Your app components */}
+    </ForttProvider>
+  );
+}
+```
+
+**Example with ignorePaths:**
+
+```tsx
+import { ForttProvider } from 'fortt/react';
+
+function App() {
+  return (
+    <ForttProvider
+      projectId="your-project-id"
+      ignorePaths={['/dashboard', '/admin/*', '/internal']}
+    >
       {/* Your app components */}
     </ForttProvider>
   );
